@@ -94,7 +94,7 @@ function displayQuestion() {
         
         <div class="answers-container">
             ${question.answers.map((answer, index) => `
-                <div class="answer-option" onclick="toggleAnswer(${index})">
+                <div class="answer-option" data-index="${index}">
                     <input 
                         type="${question.correctAnswers.length === 1 ? 'radio' : 'checkbox'}" 
                         name="answer" 
@@ -111,20 +111,36 @@ function displayQuestion() {
     `;
     
     quizContainer.innerHTML = html;
+    
+    // Ajouter les événements de clic après le rendu
+    attachAnswerClickEvents();
 }
 
-// Fonction pour activer/désactiver une réponse au clic
-function toggleAnswer(index) {
-    const input = document.getElementById(`answer-${index}`);
+// Attacher les événements de clic sur les réponses
+function attachAnswerClickEvents() {
+    const answerOptions = document.querySelectorAll('.answer-option');
     const question = shuffledQuestions[currentQuestionIndex];
+    const isMultiple = question.correctAnswers.length > 1;
     
-    if (question.correctAnswers.length === 1) {
-        // Radio button - sélectionner uniquement celui-ci
-        input.checked = true;
-    } else {
-        // Checkbox - toggle
-        input.checked = !input.checked;
-    }
+    answerOptions.forEach((option) => {
+        option.addEventListener('click', function(e) {
+            // Ne pas traiter si on clique directement sur l'input ou le label
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
+                return;
+            }
+            
+            const index = this.dataset.index;
+            const input = document.getElementById(`answer-${index}`);
+            
+            if (isMultiple) {
+                // Checkbox - toggle
+                input.checked = !input.checked;
+            } else {
+                // Radio button - sélectionner celui-ci
+                input.checked = true;
+            }
+        });
+    });
 }
 
 // Mettre à jour la barre de progression
