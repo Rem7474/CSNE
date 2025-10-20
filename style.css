@@ -172,6 +172,7 @@ section {
     transition: all 0.3s ease;
     background: #f9fafb;
     text-align: left;
+    position: relative;
 }
 
 .answer-option:hover {
@@ -188,6 +189,7 @@ section {
     margin-right: 1rem;
     cursor: pointer;
     accent-color: var(--primary-color);
+    flex-shrink: 0;
 }
 
 .answer-option label {
@@ -195,6 +197,18 @@ section {
     cursor: pointer;
     font-size: 1rem;
     color: var(--text-primary);
+    user-select: none;
+}
+
+/* Rendre toute la zone cliquable */
+.answer-option input[type="radio"] ~ label,
+.answer-option input[type="checkbox"] ~ label {
+    width: 100%;
+}
+
+.answer-option:has(input:checked) {
+    border-color: var(--primary-color);
+    background: #eff6ff;
 }
 
 .answer-option.correct {

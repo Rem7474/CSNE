@@ -94,7 +94,7 @@ function displayQuestion() {
         
         <div class="answers-container">
             ${question.answers.map((answer, index) => `
-                <div class="answer-option">
+                <div class="answer-option" onclick="toggleAnswer(${index})">
                     <input 
                         type="${question.correctAnswers.length === 1 ? 'radio' : 'checkbox'}" 
                         name="answer" 
@@ -111,6 +111,20 @@ function displayQuestion() {
     `;
     
     quizContainer.innerHTML = html;
+}
+
+// Fonction pour activer/désactiver une réponse au clic
+function toggleAnswer(index) {
+    const input = document.getElementById(`answer-${index}`);
+    const question = shuffledQuestions[currentQuestionIndex];
+    
+    if (question.correctAnswers.length === 1) {
+        // Radio button - sélectionner uniquement celui-ci
+        input.checked = true;
+    } else {
+        // Checkbox - toggle
+        input.checked = !input.checked;
+    }
 }
 
 // Mettre à jour la barre de progression
