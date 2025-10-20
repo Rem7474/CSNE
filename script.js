@@ -210,6 +210,8 @@ function nextQuestion() {
     
     // Vérifier si le quiz est terminé
     if (currentQuestionIndex >= shuffledQuestions.length) {
+        // S'assurer que la section questions est visible pour afficher les résultats
+        document.getElementById('questions').style.display = 'block';
         showResults();
     } else {
         // Afficher la prochaine question
@@ -254,8 +256,12 @@ function showResults() {
     `;
     
     quizContainer.innerHTML = html;
-    updateProgress();
-    document.getElementById('progress').style.width = '100%';
+    
+    // Mettre à jour la barre de progression à 100%
+    const progress = document.getElementById('progress');
+    if (progress) {
+        progress.style.width = '100%';
+    }
 }
 
 // Recommencer le quiz
